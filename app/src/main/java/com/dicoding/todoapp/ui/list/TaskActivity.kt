@@ -58,6 +58,7 @@ class TaskActivity : AppCompatActivity() {
         adapter = TaskAdapter(onCheckedChange = {task,isCheck ->
             taskViewModel.completeTask(task,isCheck)
         })
+        recycler.adapter = adapter
         adapter.submitList(task)
     }
 

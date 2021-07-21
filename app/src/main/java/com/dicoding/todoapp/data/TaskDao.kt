@@ -9,13 +9,13 @@ import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface TaskDao {
-    @RawQuery
+    @RawQuery(observedEntities = [Task::class])
     fun getTasks(query: SupportSQLiteQuery): DataSource.Factory<Int, Task>
 
-    @Query("SELECT * FROM Task WHERE id =:taskId")
+    @Query("SELECT * FROM tasks WHERE id =:taskId")
     fun getTaskById(taskId: Int): LiveData<Task>
 
-    @Query("SELECT * FROM Task WHERE isCompleted=1 ORDER BY dueDateMillis ASC")
+    @Query("SELECT * FROM tasks WHERE isCompleted=1 ORDER BY dueDateMillis ASC")
     fun getNearestActiveTask(): Task
 
     @Insert
@@ -27,7 +27,7 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-    @Query("UPDATE Task SET isCompleted=:completed WHERE id=:taskId")
+    @Query("UPDATE tasks SET isCompleted=:completed WHERE id=:taskId")
     suspend fun updateCompleted(taskId: Int, completed: Boolean)
-    
+
 }

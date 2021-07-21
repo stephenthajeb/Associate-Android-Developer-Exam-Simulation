@@ -1,10 +1,13 @@
 package com.dicoding.todoapp.data
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.work.Logger
 import com.dicoding.todoapp.utils.FilterUtils
 import com.dicoding.todoapp.utils.TasksFilterType
 import java.lang.Exception
@@ -39,7 +42,7 @@ class TaskRepository(private val tasksDao: TaskDao) {
     fun getTasks(filter: TasksFilterType): LiveData<PagedList<Task>> {
         val rawQuery = FilterUtils.getFilteredQuery(filter)
         val data = tasksDao.getTasks(rawQuery)
-
+        Log.d("get data",data.toString())
         return LivePagedListBuilder(data, PAGING_CONFIG).build()
     }
 

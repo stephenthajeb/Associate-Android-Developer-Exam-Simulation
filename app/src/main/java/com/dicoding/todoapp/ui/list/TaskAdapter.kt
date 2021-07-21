@@ -33,14 +33,17 @@ class TaskAdapter(
             task.isCompleted -> {
                 //DONE
                 holder.cbComplete.isChecked = true
+                holder.tvTitle.text = "DONE"
             }
             task.dueDateMillis < System.currentTimeMillis() -> {
                 //OVERDUE
                 holder.cbComplete.isChecked = false
+                holder.tvTitle.text = "OVERDUE"
             }
             else -> {
                 //NORMAL
                 holder.cbComplete.isChecked = false
+                holder.tvTitle.text = "NORMAL"
             }
         }
     }
