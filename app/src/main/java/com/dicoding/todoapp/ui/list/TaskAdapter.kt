@@ -1,6 +1,8 @@
 package com.dicoding.todoapp.ui.list
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,22 +30,23 @@ class TaskAdapter(
         val task = getItem(position) as Task
         //TODO 9 : Bind data to ViewHolder (You can run app to check)
         holder.bind(task)
+        holder.tvTitle.text = task.title
         when {
             //TODO 10 : Display title based on status using TitleTextView
             task.isCompleted -> {
                 //DONE
                 holder.cbComplete.isChecked = true
-                holder.tvTitle.text = "DONE"
+                val title = holder.tvTitle
+                title.paintFlags = title.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
             task.dueDateMillis < System.currentTimeMillis() -> {
                 //OVERDUE
                 holder.cbComplete.isChecked = false
-                holder.tvTitle.text = "OVERDUE"
+                holder.tvTitle.setTextColor(Color.RED)
             }
             else -> {
                 //NORMAL
                 holder.cbComplete.isChecked = false
-                holder.tvTitle.text = "NORMAL"
             }
         }
     }
