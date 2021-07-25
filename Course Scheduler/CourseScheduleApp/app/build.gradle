@@ -42,7 +42,7 @@ dependencies {
         appcompat_version = "1.2.0"
         constraint_version = "2.0.4"
         material_version = "1.2.1"
-        room_version = "2.2.6"
+        room_version = "2.3.0"
         paging_version = "2.1.2"
         lifecycle_version = "2.2.0"
         preference_version = "1.1.1"
