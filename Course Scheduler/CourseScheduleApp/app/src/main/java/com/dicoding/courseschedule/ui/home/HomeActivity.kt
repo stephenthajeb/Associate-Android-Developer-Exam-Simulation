@@ -30,7 +30,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         supportActionBar?.title = resources.getString(R.string.today_schedule)
-        val factory = ListViewModelFactory.createFactory(this)
+
+        val factory = HomeViewModelFactory.createFactory(this)
         viewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
         fetchData()
     }
@@ -81,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val intent: Intent = when (item.itemId) {
             R.id.action_add -> Intent(this,AddCourseActivity::class.java)
-            R.id.action_list -> Intent(this, ListActivity::class.java)
+            R.id.action_list -> Intent(this,ListActivity::class.java)
             R.id.action_settings -> Intent(this, SettingsActivity::class.java)
             else -> null
         } ?: return super.onOptionsItemSelected(item)

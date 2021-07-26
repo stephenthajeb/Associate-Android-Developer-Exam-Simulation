@@ -27,6 +27,7 @@ interface CourseDao {
     @Delete
     fun delete(course: Course)
 
-    // Todo 2.1: Remove this
-    // fun sort(params: String): DataSource.Factory<Int, Course>
+    // TODO 2.1 "Remove this, this is not used and the function definition is unclear"
+    @Query("SELECT * FROM course ORDER BY :params")
+    fun sort(params: String): DataSource.Factory<Int, Course>
 }

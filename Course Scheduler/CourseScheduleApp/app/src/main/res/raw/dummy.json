@@ -1,0 +1,31 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "courseName": "Belajar AAD",
+      "day": 1,
+      "startTime": "09:00",
+      "endTime": "09:00",
+      "lecturer": "Mr Erwin",
+      "note": "Please be on time!!"
+    },
+    {
+      "id": 2,
+      "courseName": "Belajar Mandiri",
+      "day": 1,
+      "startTime": "09:00",
+      "endTime": "09:00",
+      "lecturer": "Mr Erwin",
+      "note": "Please be on time!!"
+    },
+    {
+      "id": 3,
+      "courseName": "Belajar IOS",
+      "day": 2,
+      "startTime": "09:00",
+      "endTime": "09:00",
+      "lecturer": "Mr Erwin",
+      "note": "Please be on time!!"
+    }
+  ]
+}

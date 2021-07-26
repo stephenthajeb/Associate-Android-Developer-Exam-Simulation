@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.data.Course
@@ -29,7 +30,7 @@ class DailyReminder : BroadcastReceiver() {
         executeThread {
             val repository = DataRepository.getInstance(context)
             val courses = repository?.getTodaySchedule()
-
+            Log.d("reminder", "test")
             courses?.let {
                 if (it.isNotEmpty()) showNotification(context, it)
             }
@@ -38,17 +39,22 @@ class DailyReminder : BroadcastReceiver() {
 
     //TODO 12 : Implement daily reminder for every 06.00 a.m using AlarmManager
     fun setDailyReminder(context: Context) {
+        Log.d("reminder", "on")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context,DailyReminder::class.java)
         val pendingIntent = PendingIntent.getBroadcast(context, REMINDER_NOTIF, intent, 0)
 
         val repeatingTime = Calendar.getInstance().apply {
-            // Improvise this later,
-            // check whether 6 a.m has past if so, let the alarm fire tomorrow instead of immediately
-            set(Calendar.HOUR_OF_DAY, 6)
-            set(Calendar.MINUTE, 0)
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 25)
             set(Calendar.SECOND, 0)
         }
+
+        //For TestingPurpose
+        // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+        //    Calendar.getInstance().timeInMillis,
+        //    1000*60,
+        //    pendingIntent)
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
             repeatingTime.timeInMillis,
@@ -57,11 +63,17 @@ class DailyReminder : BroadcastReceiver() {
     }
 
     fun cancelAlarm(context: Context) {
-
+        Log.d("reminder", "off")
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, DailyReminder::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, REMINDER_NOTIF, intent, 0)
+        pendingIntent.cancel()
+        alarmManager.cancel(pendingIntent)
     }
 
     private fun showNotification(context: Context, content: List<Course>) {
         //TODO 13 : Show today schedules in inbox style notification & open HomeActivity when notification tapped
+        Log.d("reminder", "shown")
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val notificationStyle = NotificationCompat.InboxStyle()

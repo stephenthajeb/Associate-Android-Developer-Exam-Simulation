@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import java.util.concurrent.Executors
 
 //TODO 3 : Define room database class
 
@@ -22,7 +20,7 @@ abstract class CourseDatabase : RoomDatabase() {
         fun getInstance(context: Context): CourseDatabase {
             return synchronized(this){
                 instance ?: Room.databaseBuilder(context, CourseDatabase::class.java, "courses.db")
-                    .build()
+                        .build()
             }
         }
 

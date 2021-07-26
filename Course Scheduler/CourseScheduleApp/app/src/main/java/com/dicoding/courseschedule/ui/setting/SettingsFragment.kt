@@ -1,15 +1,20 @@
 package com.dicoding.courseschedule.ui.setting
 
-import android.content.BroadcastReceiver
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.*
 import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.notification.DailyReminder
 import com.dicoding.courseschedule.util.NightMode
-import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
+    private lateinit var dailyReminder : DailyReminder
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dailyReminder = DailyReminder()
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -21,13 +26,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
         themeMode.setDefaultValue(getString(R.string.pref_dark_auto))
 
         themeMode.setOnPreferenceChangeListener { _ , newValue ->
-            updateTheme(newValue as Int)
+            Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
+
+            var mode = NightMode.AUTO
+            when (newValue){
+                "on" ->  mode = NightMode.ON
+                "off"->  mode = NightMode.OFF
+                else ->  mode = NightMode.AUTO
+            }
+            updateTheme(mode.value)
             true
         }
 
-        val dailyReminder = DailyReminder()
-
-        val notifMode = preferenceManager.findPreference<Preference>(getString(R.string.pref_notify_summary)) as SwitchPreference
+        // Todo: Testing this
+        val notifMode = preferenceManager.findPreference<Preference>(getString(R.string.pref_key_notify )) as SwitchPreference
         notifMode.setOnPreferenceChangeListener { _, newValue ->
             val isActive = newValue as Boolean
             if (isActive) {

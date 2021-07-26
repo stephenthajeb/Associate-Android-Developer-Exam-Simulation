@@ -23,5 +23,15 @@ enum class DayName(val value: String) {
             Calendar.SUNDAY -> SUNDAY.value
             else -> MONDAY.value
         }
+
+        fun getByName(dayName: String) = when(dayName){
+            "Monday" -> Calendar.MONDAY
+            "Tuesday" -> Calendar.TUESDAY
+            "Wednesday" -> Calendar.WEDNESDAY
+            "Thursday" -> Calendar.THURSDAY
+            "Friday" -> Calendar.FRIDAY
+            "Saturday" -> Calendar.SATURDAY
+             else -> Calendar.SUNDAY
+        }
     }
 }
