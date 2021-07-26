@@ -1,5 +1,6 @@
 package com.dicoding.todoapp.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.todoapp.R
 import com.dicoding.todoapp.ui.ViewModelFactory
+import com.dicoding.todoapp.ui.list.TaskActivity
 import com.dicoding.todoapp.ui.list.TaskAdapter
 import com.dicoding.todoapp.ui.list.TaskViewModel
 import com.dicoding.todoapp.utils.TASK_ID
@@ -33,17 +35,20 @@ class DetailTaskActivity : AppCompatActivity() {
             detailTaskViewModel.setTaskId(detailId)
 
             detailTaskViewModel.task.observe(this, Observer{
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = it.dueDateMillis
-                val date = SimpleDateFormat("dd/MM/yyyy").format(calendar.time)
+                if (it != null){
+                    val calendar = Calendar.getInstance()
+                    calendar.timeInMillis = it.dueDateMillis
+                    val date = SimpleDateFormat("dd/MM/yyyy").format(calendar.time)
 
-                title.setText(it.title)
-                desc.setText(it.description)
-                due.setText(date)
+                    title.setText(it.title)
+                    desc.setText(it.description)
+                    due.setText(date)
+                }
             })
 
             deleteBtn.setOnClickListener {
                 detailTaskViewModel.deleteTask()
+                finish()
             }
         }
 

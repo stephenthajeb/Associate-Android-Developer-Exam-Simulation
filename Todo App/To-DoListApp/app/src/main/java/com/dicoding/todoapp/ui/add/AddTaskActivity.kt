@@ -1,5 +1,6 @@
 package com.dicoding.todoapp.ui.add
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.todoapp.R
 import com.dicoding.todoapp.data.Task
 import com.dicoding.todoapp.ui.ViewModelFactory
+import com.dicoding.todoapp.ui.list.TaskActivity
 import com.dicoding.todoapp.ui.list.TaskViewModel
 import com.dicoding.todoapp.utils.DatePickerFragment
 import java.text.SimpleDateFormat
@@ -49,6 +51,8 @@ class AddTaskActivity : AppCompatActivity(), DatePickerFragment.DialogDateListen
                     desc.trim() != "") {
                     val task = Task(title=title, description = desc, dueDateMillis = dueDateMillis)
                     addTaskViewModel.addTask(task)
+
+                    finish()
                 } else {
                     Toast.makeText(this, "Title and description is required", Toast.LENGTH_SHORT).show()
                 }
