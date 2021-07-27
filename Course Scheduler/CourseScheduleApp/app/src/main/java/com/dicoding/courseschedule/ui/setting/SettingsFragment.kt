@@ -23,7 +23,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 
         val themeMode = preferenceManager.findPreference<Preference>(getString(R.string.pref_key_dark)) as ListPreference
-        themeMode.setDefaultValue(getString(R.string.pref_dark_auto))
 
         themeMode.setOnPreferenceChangeListener { _ , newValue ->
             Toast.makeText(context, newValue.toString(), Toast.LENGTH_SHORT).show()
