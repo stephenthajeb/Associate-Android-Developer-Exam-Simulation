@@ -14,15 +14,12 @@ import com.dicoding.courseschedule.R
 import com.dicoding.courseschedule.data.Course
 import com.dicoding.courseschedule.data.DataRepository
 import com.dicoding.courseschedule.ui.home.HomeActivity
-import com.dicoding.courseschedule.util.NOTIFICATION_CHANNEL_ID
-import com.dicoding.courseschedule.util.NOTIFICATION_CHANNEL_NAME
-import com.dicoding.courseschedule.util.executeThread
+import com.dicoding.courseschedule.util.*
 import java.util.*
 
 class DailyReminder : BroadcastReceiver() {
 
     companion object{
-        const val REMINDER_NOTIF = 1
         const val ACTION_TO_HOME = 2
     }
 
@@ -42,19 +39,19 @@ class DailyReminder : BroadcastReceiver() {
         Log.d("reminder", "on")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context,DailyReminder::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, REMINDER_NOTIF, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
 
         val repeatingTime = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 25)
+            set(Calendar.HOUR_OF_DAY, 6)
+            set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
         }
 
-        //For TestingPurpose
-        // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-        //    Calendar.getInstance().timeInMillis,
-        //    1000*60,
-        //    pendingIntent)
+         //For TestingPurpose
+//         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+//        repeatingTime.timeInMillis,
+//        1000*60,
+//         pendingIntent)
 
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
             repeatingTime.timeInMillis,
@@ -66,7 +63,7 @@ class DailyReminder : BroadcastReceiver() {
         Log.d("reminder", "off")
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, DailyReminder::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, REMINDER_NOTIF, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)
     }
@@ -88,7 +85,7 @@ class DailyReminder : BroadcastReceiver() {
         val pendingIntent = PendingIntent.getActivity(context, ACTION_TO_HOME, intent, 0)
 
         var notification = NotificationCompat
-            .Builder(context, "daily-reminder")
+            .Builder(context, NOTIFICATION_CHANNEL_NAME)
             .setSmallIcon(R.drawable.ic_notifications)
             .setStyle(notificationStyle)
             .setContentIntent(pendingIntent)
@@ -100,6 +97,6 @@ class DailyReminder : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(Calendar.getInstance().timeInMillis.toInt(), notification.build())
+        notificationManager.notify(NOTIFICATION_ID, notification.build())
     }
 }
