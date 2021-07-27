@@ -5,12 +5,15 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.dicoding.habitapp.R
 import com.dicoding.habitapp.data.Habit
 import com.dicoding.habitapp.notification.NotificationWorker
 import com.dicoding.habitapp.utils.HABIT
+import com.dicoding.habitapp.utils.HABIT_ID
+import com.dicoding.habitapp.utils.HABIT_TITLE
 import com.dicoding.habitapp.utils.NOTIF_UNIQUE_WORK
 
 class CountDownActivity : AppCompatActivity() {
@@ -38,7 +41,13 @@ class CountDownActivity : AppCompatActivity() {
             if (hasFinished){
                 updateButtonState(isRunning = false)
 
+                val dataBuilder = Data.Builder()
+                dataBuilder.putString(HABIT_TITLE, habit.title)
+                dataBuilder.putInt(HABIT_ID,habit.id)
+                val data = dataBuilder.build()
+
                 val notificationWorkerReq = OneTimeWorkRequestBuilder<NotificationWorker>()
+                    .setInputData(data)
                     .addTag(NOTIF_UNIQUE_WORK)
                     .build()
 

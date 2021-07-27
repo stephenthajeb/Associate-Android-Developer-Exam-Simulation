@@ -44,11 +44,12 @@ class NotificationWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, p
 
     private fun showNotification(){
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val timesUp = applicationContext.getString(R.string.notify_content)
         val notification: NotificationCompat.Builder = NotificationCompat
             .Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notifications)
             .setContentTitle(habitTitle)
-            .setContentText(applicationContext.getString(R.string.notify_content))
+            .setContentText(timesUp)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setContentIntent(getPendingIntent())
